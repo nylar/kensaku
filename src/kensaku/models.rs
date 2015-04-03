@@ -17,6 +17,7 @@ impl Document {
     /// new Document
     ///
     /// ```
+    /// use kensaku::models::Document;
     /// let d = Document::new(
     ///     1,
     ///     "http://acme.com/about".to_string(),
@@ -50,6 +51,7 @@ impl Index {
     /// new Index
     ///
     /// ```
+    /// use kensaku::models::Index;
     /// let i = Index::new(
     ///     1,
     ///     "acme".to_string(),
