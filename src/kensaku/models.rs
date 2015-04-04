@@ -216,11 +216,11 @@ impl<'a> Index<'a> {
         return &self.locations;
     }
 
-    /// set_locations() is a setter for the private field locations
+    /// push_locations() adds a value to the locations vector
     ///
     /// # Examples
     ///
-    /// Set locations
+    /// Push an i32 into locations
     ///
     /// ```
     /// use kensaku::models::Index;
@@ -231,10 +231,31 @@ impl<'a> Index<'a> {
     ///     "acme".to_string(),
     ///     &mut locations,
     /// );
-    /// i.set_locations(4); // i.locations now equals [1,2,3,4]
+    /// i.push_locations(4); // i.locations now equals [1,2,3,4]
     /// ```
-    pub fn set_locations(&mut self, val: i32) {
+    pub fn push_locations(&mut self, val: i32) {
         self.locations.push(val);
+    }
+
+    /// pop_locations() removes a value from the locations vector
+    ///
+    /// # Examples
+    ///
+    /// Pop an i32 from locations
+    ///
+    /// ```
+    /// use kensaku::models::Index;
+    ///
+    /// let mut locations = vec![1,2,3];
+    /// let mut i = Index::new(
+    ///     1,
+    ///     "acme".to_string(),
+    ///     &mut locations,
+    /// );
+    /// let new_locations = i.pop_locations(); // i.locations now equals [1,2] and 3 is returned.
+    /// ```
+    pub fn pop_locations(&mut self) -> i32 {
+        return self.locations.pop().unwrap();
     }
 }
 
@@ -272,7 +293,7 @@ mod tests {
     }
 
     #[test]
-    fn test_set_locations() {
+    fn test_push_locations() {
         let mut locations = vec![1,2,3];
         let mut i = Index::new(
             1,
@@ -282,8 +303,28 @@ mod tests {
 
         assert_eq!(3, i.locations().len());
 
-        i.set_locations(4);
+        i.push_locations(4);
 
         assert_eq!(4, i.locations().len());
+    }
+
+    #[test]
+    fn test_pop_locations() {
+        let mut locations = vec![1,2,3];
+        let mut i = Index::new(
+            1,
+            "acme".to_string(),
+            &mut locations,
+        );
+
+        assert_eq!(3, i.locations().len());
+
+        let new_locations = i.pop_locations();
+        assert_eq!(2, i.locations().len());
+        assert_eq!(3, new_locations);
+
+        let newer_locations = i.pop_locations();
+        assert_eq!(1, i.locations().len());
+        assert_eq!(2, newer_locations);
     }
 }
